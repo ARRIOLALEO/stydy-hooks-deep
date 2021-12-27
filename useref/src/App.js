@@ -1,17 +1,30 @@
+import React, { useState, useRef, useEffect } from "react";
 import "./App.css";
-import { useState, useRef, useEffect } from "react";
+
 function App() {
   const [name, setName] = useState("");
-  const getReft = useRef();
-  function focus() {
-    getReft.current.focus();
-  }
+  const renderCount = useRef(0);
+  const previus = useRef("");
+  const inputRef = useRef();
+  useEffect(() => {
+    renderCount.current = renderCount.current + 1;
+  });
   return (
-    <>
-      <input ref={getReft} type="text" value={name} onChange={(e) => setName(e.target.value)} />
-      <h1>this is my name {name} </h1>
-      <button onClick={focus}> start writing</button>
-    </>
+    <div className="App">
+      <input
+        type="text"
+        ref={inputRef}
+        value={name}
+        onChange={(e) => {
+          previus.current = name;
+          setName(e.target.value);
+        }}
+      />
+      <h1> my name is {name}</h1>
+      <h5> and it was {previus.current} </h5>
+      <h2> this hook has been render {renderCount.current} </h2>
+      <button onClick={() => inputRef.current.focus()}>Send Focust </button>
+    </div>
   );
 }
 
